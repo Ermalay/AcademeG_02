@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c00c0596-e398-4814-bad1-51abeffc9815" name="Default" comment="Практически пустой коммит. Рабочая версия">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="c00c0596-e398-4814-bad1-51abeffc9815" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java" afterPath="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java" />
     </list>
     <ignored path="AcademeG2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2029,6 +2026,14 @@
       <option name="presentableId" value="Default" />
       <updated>1478797359979</updated>
     </task>
+    <task id="LOCAL-00001" summary="Практически пустой коммит. Рабочая версия">
+      <created>1478798618317</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1478798618317</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">

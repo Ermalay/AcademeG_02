@@ -47,6 +47,8 @@ public class SplashScreen extends AppCompatActivity {
 
         new ParseTaskAka().execute();
 
+
+
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {

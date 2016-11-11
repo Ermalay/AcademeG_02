@@ -14,7 +14,9 @@ import com.squareup.picasso.Picasso;
 public class AdapterListVideo extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] itemName, itemDescription, itemImage;
+    private final String[] itemImage;
+    private final String[] itemName;
+    private final String[] itemDescription;
 
 
     public AdapterListVideo(Activity context, String[] itemName, String[] itemImage, String[] itemDescription){
@@ -25,6 +27,7 @@ public class AdapterListVideo extends ArrayAdapter<String> {
         this.itemImage = itemImage;
         this.itemDescription = itemDescription;
     }
+
 
     @Override
     public View getView (int position,View view,ViewGroup parent){

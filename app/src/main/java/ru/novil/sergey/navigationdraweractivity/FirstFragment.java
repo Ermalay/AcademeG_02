@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.TextViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class FirstFragment extends Fragment {
     DatabaseHelper mDatabaseHelper;
     SQLiteDatabase mSqLiteDatabase;
     Cursor cursor;
-    ListView lv1, lv2;
+    ListView lv1, lv2, lv3;
     public TextView tv, tv1, tv2, tv22, tv23, tv3;
     ContentValues contentValues;
 
@@ -128,9 +129,13 @@ public class FirstFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0){
-                return "вкладка №1";
+                return "Лента";
+            } else if (position == 1) {
+                return "AcademeG";
+            } else if (position == 2) {
+                return "AcademeG 2hd";
             } else {
-                return "Item " + (position + 1);
+                return "Вкладка " + (position + 1);
             }
 
         }
@@ -240,6 +245,28 @@ public class FirstFragment extends Fragment {
                 new ParseTask().execute();  //читаем JSON и заполняем SQLite
 
                 tv2.setText(nextPageToken);
+                container.addView(view);
+                return view;
+
+
+            } if (position == 2){
+                View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item_3,
+                        container, false);
+                TextView tv333 = (TextView) view.findViewById(R.id.tv333);
+                tv333.setText("В курсоре всего - " + Integer.toString(returnCursor2dn().getCount()) + " позиций");
+                lv3 = (ListView) view.findViewById(R.id.lv3);
+
+                String[] itemName2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.TITLE_COLUMN_2ND_CH);
+                String[] itemImage2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.URL_COLUMN_2ND_CH);
+                String[] itemDesc2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.DESCRIPTION_COLUMN_2ND_CH);
+                String[] itemDesc2ndEmpty = new String[returnCursor2dn().getCount()];
+
+                AdapterListVideo adapterListVideo2nd = new AdapterListVideo(getActivity(),
+                        itemName2nd,
+                        itemImage2nd,
+                        itemDesc2ndEmpty);
+                lv3.setAdapter(adapterListVideo2nd);
+
                 container.addView(view);
                 return view;
             }
@@ -370,7 +397,7 @@ public class FirstFragment extends Fragment {
                         cursor.close();
                         mSqLiteDatabase.close();
 
-                        fillArrayItems();           //заполняем массивы для адаптера
+                        fillArrayItems(returnCursor());           //заполняем массивы для адаптера
 //                        fillAdapterListVideo();     //заполняем ListView адаптером
                         fillAdapterListVideo();
                         Parcelable state = lv2.onSaveInstanceState();
@@ -402,7 +429,15 @@ public class FirstFragment extends Fragment {
     public Cursor returnCursor (){
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-        String query = "select * from " + DatabaseHelper.DATABASE_TABLE;
+        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG;
+        cursor = mSqLiteDatabase.rawQuery(query, null);
+        return cursor;
+    }
+
+    public Cursor returnCursor2dn (){
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
+        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH;
         cursor = mSqLiteDatabase.rawQuery(query, null);
         return cursor;
     }
@@ -412,7 +447,7 @@ public class FirstFragment extends Fragment {
         contentValues.put(DatabaseHelper.URL_COLUMN, url);
         contentValues.put(DatabaseHelper.DESCRIPTION_COLUMN, description);
         contentValues.put(DatabaseHelper.VIDEO_ID_COLUMN, videoId);
-        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE, null, contentValues); //добавляем contentValues в SQLite
+        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG, null, contentValues); //добавляем contentValues в SQLite
     }
 
     public void fillAdapterListVideo(){
@@ -422,8 +457,20 @@ public class FirstFragment extends Fragment {
 //        loadingMore = true;
     }
 
-    public void fillArrayItems (){
-        returnCursor();
+    //Заполняем массивы из БД для лист-адаптера
+    public String[] fillArrayItems2nd (Cursor cursor, String columnName){
+        String[] arr = new String[cursor.getCount()];
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            for (int i = 0; i < cursor.getCount(); i++){
+                arr[i] = cursor.getString(cursor.getColumnIndex(columnName));
+                cursor.moveToNext();
+            }
+        }
+        return arr;
+    }
+
+    public void fillArrayItems (Cursor cursor){
 
         String wewewe = Integer.toString(cursor.getCount());
         tv23.setText("В cursor.getCount() - " + wewewe + " позиций.");

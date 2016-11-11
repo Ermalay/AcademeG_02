@@ -76,8 +76,15 @@ public class SplashScreen extends AppCompatActivity {
                 String maxResultsKey = "6";
                 String prePageToken = "&pageToken=";
                 String playlistId = "&playlistId=";
-                String playlistIdKey = "UUM0RSbJnk0nAUvfH4Pp7mjQ";    //мой канал
+//                String playlistIdKey = "UUM0RSbJnk0nAUvfH4Pp7mjQ";        //мой канал
 //                String playlistIdKey = "UUQeaXcwLUDeRoNVThZXLkmw";      //Big Test Drive
+//                String playlistIdKey = "UU0lT9K8Wfuc1KPqm6YjRf1A";      //AcademeG
+                String playlistIdKey = "UUL1C1f9HWf3Hyct4aqBJi1A";      //AcademeG2ndCH
+
+                    //AcademeG DailyStream
+//                https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=3&playlistId=UUEVNTzTFSGkZGTjVE9ipXpg&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk
+
+
                 String lastPartURL = "&key=";
                 String developerKey = "AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk";
 
@@ -157,16 +164,6 @@ public class SplashScreen extends AppCompatActivity {
                 startActivity(intent);
                 finish();
 
-
-//                    fillArrayItems();           //заполняем массивы для адаптера
-//                        fillAdapterListVideo();     //заполняем ListView адаптером
-//                    fillAdapterListVideo();
-//                    Parcelable state = lv2.onSaveInstanceState();
-//                    lv2.setAdapter(adapterListVideo);
-//                    lv2.onRestoreInstanceState(state);
-//                    mSwipeRefreshLayout.setRefreshing(false);//указываем об окончании обновления страницы
-//                    loadingMore = true;             //Вызываем onScroll только один раз
-//                    Toast.makeText(getActivity(), "!!! new ParseTask().execute(); !!!", Toast.LENGTH_SHORT).show();
             }catch (JSONException e) {e.printStackTrace();}
         }
     }//Конец ParseTask
@@ -176,7 +173,7 @@ public class SplashScreen extends AppCompatActivity {
         contentValues.put(DatabaseHelper.URL_COLUMN, url);
         contentValues.put(DatabaseHelper.DESCRIPTION_COLUMN, description);
         contentValues.put(DatabaseHelper.VIDEO_ID_COLUMN, videoId);
-        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE, null, contentValues); //добавляем contentValues в SQLite
+        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH, null, contentValues); //добавляем contentValues в SQLite
     }
 
     public boolean compareSQLiteAndJSON (String videoId){
@@ -198,7 +195,7 @@ public class SplashScreen extends AppCompatActivity {
     public Cursor returnCursor (){
         mDatabaseHelper = new DatabaseHelper(getBaseContext());
         mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-        String query = "select * from " + DatabaseHelper.DATABASE_TABLE;
+        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH;
         cursor = mSqLiteDatabase.rawQuery(query, null);
         return cursor;
     }

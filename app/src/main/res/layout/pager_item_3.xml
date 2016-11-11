@@ -1,11 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tvPagerItem_3"
-        android:text="tvPagerItem_3"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="tv3"
+            android:id="@+id/tv3"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="tv33"
+            android:id="@+id/tv33"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="tv333"
+            android:id="@+id/tv333"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_container_3"
+            android:layout_width="match_parent"
+            android:layout_height="270dp">
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lv3">
+            </ListView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+        <Button
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonPager3"
+            android:text="Кнопка"
+            android:layout_weight="0.05" />
+    </LinearLayout>
 
 </LinearLayout>

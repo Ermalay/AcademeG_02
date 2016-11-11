@@ -106,7 +106,7 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
             JSONArray items = dataJsonObj.getJSONArray("items");
 
 
-            mDatabaseHelper = new DatabaseHelper(MyAsyncTask.this);
+            mDatabaseHelper = new DatabaseHelper(context);
             mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
             contentValues = new ContentValues();
 
@@ -137,7 +137,7 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
         contentValues.put(DatabaseHelper.URL_COLUMN, url);
         contentValues.put(DatabaseHelper.DESCRIPTION_COLUMN, description);
         contentValues.put(DatabaseHelper.VIDEO_ID_COLUMN, videoId);
-        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE, null, contentValues); //добавляем contentValues в SQLite
+        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG, null, contentValues); //добавляем contentValues в SQLite
     }
 
     public boolean compareSQLiteAndJSON (String videoId){
@@ -159,7 +159,7 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
     public Cursor returnCursor (){
         mDatabaseHelper = new DatabaseHelper(context);
         mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-        String query = "select * from " + DatabaseHelper.DATABASE_TABLE;
+        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG;
         cursor = mSqLiteDatabase.rawQuery(query, null);
         return cursor;
     }

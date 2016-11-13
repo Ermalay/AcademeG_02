@@ -35,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import ru.novil.sergey.navigationdraweractivity.sqlite.DatabaseHelper;
+import ru.novil.sergey.navigationdraweractivity.sqlite.MyAsyncTask;
 import ru.novil.sergey.navigationdraweractivity.view.SlidingTabLayout;
 import ru.novil.sergey.navigationdraweractivity.view.SplashScreen;
 
@@ -59,6 +60,8 @@ public class FirstFragment extends Fragment {
     private ViewPager mViewPager;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    Context context;
 
     public FirstFragment() {
     }
@@ -258,14 +261,20 @@ public class FirstFragment extends Fragment {
 
                 String[] itemName2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.TITLE_COLUMN_2ND_CH);
                 String[] itemImage2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.URL_COLUMN_2ND_CH);
-                String[] itemDesc2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.DESCRIPTION_COLUMN_2ND_CH);
                 String[] itemDesc2ndEmpty = new String[returnCursor2dn().getCount()];
+
+                View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layot, null, false);
+                lv3.addFooterView(footerView);
 
                 AdapterListVideo adapterListVideo2nd = new AdapterListVideo(getActivity(),
                         itemName2nd,
                         itemImage2nd,
                         itemDesc2ndEmpty);
                 lv3.setAdapter(adapterListVideo2nd);
+
+//                MyAsyncTask myAsyncTask = new MyAsyncTask(context);
+//                myAsyncTask.execute();
+//                new SplashScreen().getP
 
                 container.addView(view);
                 return view;

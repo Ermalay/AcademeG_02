@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ru.novil.sergey.navigationdraweractivity.FirstFragment;
 import ru.novil.sergey.navigationdraweractivity.MainActivity;
 import ru.novil.sergey.navigationdraweractivity.view.SplashScreen;
 
@@ -37,9 +38,14 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
 
     SplashScreen splashScreen;
     MainActivity mainActivity;
+    FirstFragment firstFragment;
 
-    public MyAsyncTask(SplashScreen splashScreen) {
-        this.splashScreen = splashScreen;
+    public MyAsyncTask(FirstFragment firstFragment) {
+        this.firstFragment = firstFragment;
+    }
+
+    public MyAsyncTask(Context context) {
+        this.context = context;
     }
 
     @Override

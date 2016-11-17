@@ -17,15 +17,17 @@ public class AdapterListVideo extends ArrayAdapter<String> {
     private final String[] itemImage;
     private final String[] itemName;
     private final String[] itemDescription;
+    private final String[] itemPublished;
 
 
-    public AdapterListVideo(Activity context, String[] itemName, String[] itemImage, String[] itemDescription){
+    public AdapterListVideo(Activity context, String[] itemName, String[] itemImage, String[] itemDescription, String[] itemPublished){
         super(context, R.layout.my_list, itemName);
 
         this.context = context;
         this.itemName = itemName;
         this.itemImage = itemImage;
         this.itemDescription = itemDescription;
+        this.itemPublished = itemPublished;
     }
 
 
@@ -36,9 +38,11 @@ public class AdapterListVideo extends ArrayAdapter<String> {
         TextView item = (TextView) rowView.findViewById(R.id.item);
         TextView desc = (TextView) rowView.findViewById(R.id.desc);
         ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
+        TextView publish = (TextView) rowView.findViewById(R.id.tvPublished);
 
         item.setText(itemName[position]);
         desc.setText(itemDescription[position]);
+        publish.setText(itemPublished[position]);
 
         Picasso
                 .with(context)

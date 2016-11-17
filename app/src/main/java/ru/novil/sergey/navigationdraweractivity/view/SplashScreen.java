@@ -45,19 +45,19 @@ public class SplashScreen extends AppCompatActivity {
 //        MyAsyncTask myAsyncTask = new MyAsyncTask(this);
 //        myAsyncTask.execute();
 
-        new ParseTaskAka().execute();
+//        new ParseTaskAka().execute();
 
 
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-//                startActivity(intent);
-//                new ParseTaskAka().execute();
-//                finish();
-//            }
-//        }, 5*1000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+        }, 2*1000);
 
     }
 

@@ -41,8 +41,8 @@ import ru.novil.sergey.navigationdraweractivity.view.SplashScreen;
 
 public class FirstFragment extends Fragment {
 
-    public String[] itemName, itemImage, itemDescription, itemsVideoIdSQL;
-    String title, description, url, videoId, videoIdPre, nextPageToken, prevPageToken, cursorVideoID, itemVideoID;
+    public String[] itemName, itemImage, itemDescription, itemPublished, itemsVideoIdSQL;
+    String title, publishedAt, description, url, videoId, videoIdPre, nextPageToken, prevPageToken, cursorVideoID, itemVideoID;
     String pageToken = "";
 
     boolean loadingMore = true;
@@ -53,7 +53,7 @@ public class FirstFragment extends Fragment {
     SQLiteDatabase mSqLiteDatabase;
     Cursor cursor;
     ListView lv1, lv2, lv3;
-    public TextView tv, tv1, tv2, tv22, tv23, tv3;
+    public TextView tv, tv1, tv2, tv22, tv23, tv3, tv33, tv333;
     ContentValues contentValues;
 
     private SlidingTabLayout mSlidingTabLayout;
@@ -255,27 +255,75 @@ public class FirstFragment extends Fragment {
             } if (position == 2){
                 View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item_3,
                         container, false);
-                TextView tv333 = (TextView) view.findViewById(R.id.tv333);
-                tv333.setText("В курсоре всего - " + Integer.toString(returnCursor2dn().getCount()) + " позиций");
+
+                tv3 = (TextView) view.findViewById(R.id.tv3);
+                tv33 = (TextView) view.findViewById(R.id.tv33);
+                tv333 = (TextView) view.findViewById(R.id.tv333);
                 lv3 = (ListView) view.findViewById(R.id.lv3);
 
-                String[] itemName2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.TITLE_COLUMN_2ND_CH);
-                String[] itemImage2nd = fillArrayItems2nd(returnCursor2dn(), DatabaseHelper.URL_COLUMN_2ND_CH);
-                String[] itemDesc2ndEmpty = new String[returnCursor2dn().getCount()];
+                mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container_3);
+                mSwipeRefreshLayout.setOnRefreshListener(this);
+                mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                        android.R.color.holo_green_light,
+                        android.R.color.holo_orange_light,
+                        android.R.color.holo_red_light);
 
                 View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layot, null, false);
                 lv3.addFooterView(footerView);
 
-                AdapterListVideo adapterListVideo2nd = new AdapterListVideo(getActivity(),
-                        itemName2nd,
-                        itemImage2nd,
-                        itemDesc2ndEmpty);
-                lv3.setAdapter(adapterListVideo2nd);
+                lv3.setAdapter(adapterListVideo);
 
-//                MyAsyncTask myAsyncTask = new MyAsyncTask(context);
-//                myAsyncTask.execute();
-//                new SplashScreen().getP
+                lv3.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(AbsListView absListView, int i) {
 
+                    }
+
+                    @Override
+                    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                        if ((i == i2 - 5) && loadingMore){
+                            loadingMore = false;
+                            pageToken = nextPageToken;
+                            new ParseTask2nd().execute();
+                        }
+                    }
+                });
+
+                lv3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+//                        Intent intent = new Intent(getActivity(), YouTubeActivity.class);
+
+                        returnCursor2nd();
+                        cursor.moveToPosition(position);
+                        String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
+                        cursor.close();
+
+                        Intent intent = new Intent(getActivity(), Delete_It.class);
+                        intent.putExtra("pushkin", vId);
+                        startActivity(intent);
+                        Toast.makeText(getActivity(), "onItemClick - " + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+//                Button buttonPager2 = (Button) view.findViewById(R.id.buttonPager2);
+//                buttonPager2.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Toast.makeText(getActivity(), "Кнопочку нажали!!!", Toast.LENGTH_SHORT).show();
+//                        pageToken = nextPageToken;
+//                        new ParseTask().execute();
+////                        SplashScreen splashScreen = new SplashScreen();
+////                        splashScreen.
+//                    }
+//                });
+
+
+//                new ParseTask().execute();  //читаем JSON и заполняем SQLite
+                new ParseTask2nd().execute();
+
+                tv3.setText(nextPageToken);
                 container.addView(view);
                 return view;
             }
@@ -391,15 +439,16 @@ public class FirstFragment extends Fragment {
                             JSONObject snippet = item.getJSONObject("snippet");//из пункта берём объект по ключу "snippet"
                             title = snippet.getString("title");//из объекта snippet берём строку по ключу title
                             description = snippet.getString("description");
+                            publishedAt = snippet.getString("publishedAt");
                             JSONObject thumbnails = snippet.getJSONObject("thumbnails");
                             JSONObject medium = thumbnails.getJSONObject("medium");
                             url = medium.getString("url");
                             JSONObject resourceId = snippet.getJSONObject("resourceId");
                             videoId = resourceId.getString("videoId");
 
-
-                            if (compareSQLiteAndJSON(videoId)){     //Если такого videoId ещё нет в Базе
-                                fillSQLite();                       //или База пустая
+                            //Если такого videoId ещё нет в Базе или База пустая
+                            if (compareSQLiteAndJSON(videoId)){
+                                fillSQLite(DatabaseHelper.DATABASE_TABLE_ACAGEMEG);
                             }
                         }
 
@@ -407,10 +456,11 @@ public class FirstFragment extends Fragment {
                         mSqLiteDatabase.close();
 
                         fillArrayItems(returnCursor());           //заполняем массивы для адаптера
-//                        fillAdapterListVideo();     //заполняем ListView адаптером
-                        fillAdapterListVideo();
-                        Parcelable state = lv2.onSaveInstanceState();
+
+                        fillAdapterListVideo();     //заполняем ListView адаптером
                         lv2.setAdapter(adapterListVideo);
+
+                        Parcelable state = lv2.onSaveInstanceState();
                         lv2.onRestoreInstanceState(state);
                         mSwipeRefreshLayout.setRefreshing(false);//указываем об окончании обновления страницы
                         loadingMore = true;             //Вызываем onScroll только один раз
@@ -418,6 +468,116 @@ public class FirstFragment extends Fragment {
                     }catch (JSONException e) {e.printStackTrace();}
             }
         }//Конец ParseTask
+
+    private class ParseTask2nd extends AsyncTask<Void, Void, String> {
+
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String resultJson = "";
+
+        @Override
+        protected String doInBackground(Void... params) {
+            // получаем данные с внешнего ресурса
+            try {
+                String firstPartURL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
+                String maxResults = "&maxResults=";
+                String maxResultsKey = "6";
+                String prePageToken = "&pageToken=";
+                String playlistId = "&playlistId=";
+//                    String playlistIdKey = "UUM0RSbJnk0nAUvfH4Pp7mjQ";    //мой канал
+//                String playlistIdKey = "UUQeaXcwLUDeRoNVThZXLkmw";      //Big Test Drive
+                String playlistIdKey = "UUL1C1f9HWf3Hyct4aqBJi1A";      //AcademeG2nd
+
+                String lastPartURL = "&key=";
+                String developerKey = "AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk";
+
+                URL url = new URL(firstPartURL + maxResults + maxResultsKey + prePageToken + pageToken
+                        + playlistId + playlistIdKey + lastPartURL + developerKey);
+//                    URL url = new URL("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=1&pageToken=&playlistId=UUM0RSbJnk0nAUvfH4Pp7mjQ&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk");
+
+//                    printURL(url.toString());       //показывает строку url
+
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+
+                resultJson = buffer.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return resultJson;
+        }
+
+        @Override
+        protected void onPostExecute(String strJson) {
+            super.onPostExecute(strJson);
+            JSONObject dataJsonObj = null;
+
+            try {
+                dataJsonObj = new JSONObject(strJson);
+
+                if (dataJsonObj.has("nextPageToken")) {
+                    nextPageToken = dataJsonObj.getString("nextPageToken");
+                } else if (dataJsonObj.has("prevPageToken")) {
+                    prevPageToken = dataJsonObj.getString("prevPageToken");
+                }
+
+                JSONArray items = dataJsonObj.getJSONArray("items");
+
+
+                mDatabaseHelper = new DatabaseHelper(getActivity());
+                mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
+                contentValues = new ContentValues();
+
+                returnCursor();
+
+                for (int i = 0; i < items.length(); i++) {
+                    JSONObject item = items.getJSONObject(i);//берём каждый пункт из массива items
+                    JSONObject snippet = item.getJSONObject("snippet");//из пункта берём объект по ключу "snippet"
+                    title = snippet.getString("title");//из объекта snippet берём строку по ключу title
+                    description = snippet.getString("description");
+                    publishedAt = snippet.getString("publishedAt");
+                    JSONObject thumbnails = snippet.getJSONObject("thumbnails");
+                    JSONObject medium = thumbnails.getJSONObject("medium");
+                    url = medium.getString("url");
+                    JSONObject resourceId = snippet.getJSONObject("resourceId");
+                    videoId = resourceId.getString("videoId");
+
+                    //Если такого videoId ещё нет в Базе или База пустая
+                    if (compareSQLiteAndJSON(videoId)){
+                        fillSQLite(DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH);
+                    }
+                }
+
+                cursor.close();
+                mSqLiteDatabase.close();
+
+                fillArrayItems(returnCursor2nd());           //заполняем массивы для адаптера
+
+                Parcelable state = lv3.onSaveInstanceState();
+
+                fillAdapterListVideo();     //заполняем ListView адаптером
+                lv3.setAdapter(adapterListVideo);
+
+                lv3.onRestoreInstanceState(state);
+                mSwipeRefreshLayout.setRefreshing(false);//указываем об окончании обновления страницы
+                loadingMore = true;             //Вызываем onScroll только один раз
+                Toast.makeText(getActivity(), "!!! new ParseTask().execute(); !!!", Toast.LENGTH_SHORT).show();
+            }catch (JSONException e) {e.printStackTrace();}
+        }
+    }//Конец ParseTask2nd
 
     public boolean compareSQLiteAndJSON (String videoId){
         returnCursor();
@@ -443,7 +603,7 @@ public class FirstFragment extends Fragment {
         return cursor;
     }
 
-    public Cursor returnCursor2dn (){
+    public Cursor returnCursor2nd (){
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
         String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH;
@@ -451,17 +611,19 @@ public class FirstFragment extends Fragment {
         return cursor;
     }
 
-    public void fillSQLite (){
+    public void fillSQLite (String sDataBaseTable){
         contentValues.put(DatabaseHelper.TITLE_COLUMN, title);
         contentValues.put(DatabaseHelper.URL_COLUMN, url);
         contentValues.put(DatabaseHelper.DESCRIPTION_COLUMN, description);
         contentValues.put(DatabaseHelper.VIDEO_ID_COLUMN, videoId);
-        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG, null, contentValues); //добавляем contentValues в SQLite
+        contentValues.put(DatabaseHelper.PUBLISHEDAT_COLUMN, publishedAt);
+//        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG, null, contentValues); //добавляем contentValues в SQLite
+        mSqLiteDatabase.insert(sDataBaseTable, null, contentValues); //добавляем contentValues в SQLite
     }
 
     public void fillAdapterListVideo(){
 //        AdapterListVideo adapterListVideo = new AdapterListVideo(getActivity(), itemName, itemImage, itemDescription);
-        adapterListVideo = new AdapterListVideo(getActivity(), itemName, itemImage, itemDescription);
+        adapterListVideo = new AdapterListVideo(getActivity(), itemName, itemImage, itemDescription, itemPublished);
 //        lv2.setAdapter(adapterListVideo);
 //        loadingMore = true;
     }
@@ -481,20 +643,21 @@ public class FirstFragment extends Fragment {
 
     public void fillArrayItems (Cursor cursor){
 
-        String wewewe = Integer.toString(cursor.getCount());
-        tv23.setText("В cursor.getCount() - " + wewewe + " позиций.");
+//        tv23.setText("В cursor.getCount() - " + Integer.toString(cursor.getCount()) + " позиций.");
+//        tv33.setText("В cursor.getCount() - " + Integer.toString(cursor.getCount()) + " позиций.");
 
         if (cursor.getCount() > 0){
-            int count = cursor.getCount();
 
             if (cursor.moveToFirst()){
                 itemName = new String[cursor.getCount()];
                 itemImage = new String[cursor.getCount()];
                 itemDescription = new String[cursor.getCount()];
+                itemPublished = new String[cursor.getCount()];
                 for (int i = 0; i < cursor.getCount(); i++){
                     itemName[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
                     itemImage[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.URL_COLUMN));
                     itemDescription[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
+                    itemPublished[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PUBLISHEDAT_COLUMN));
                     cursor.moveToNext();
                 }
 

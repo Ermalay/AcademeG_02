@@ -18,12 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String DESCRIPTION_COLUMN = "description";
     public static final String VIDEO_ID_COLUMN = "videoId";
     public static final String URL_COLUMN = "url";
-
-    public static final String COLUMN_ID_2ND_CH = "_id";
-    public static final String TITLE_COLUMN_2ND_CH = "title";
-    public static final String DESCRIPTION_COLUMN_2ND_CH = "description";
-    public static final String VIDEO_ID_COLUMN_2ND_CH = "videoId";
-    public static final String URL_COLUMN_2ND_CH = "url";
+    public static final String PUBLISHEDAT_COLUMN = "publishedAt";
 
     // имя таблицы
     public static final String DATABASE_TABLE_ACAGEMEG = "video_academeg";
@@ -35,15 +30,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
             + TITLE_COLUMN + " text not null, "
             + DESCRIPTION_COLUMN + " text, "
             + VIDEO_ID_COLUMN + " text, "
+            + PUBLISHEDAT_COLUMN + " text, "
             + URL_COLUMN + " text);";
 
     private static final String DATABASE_CREATE_SCRIPT_ACAGEMEG_2ND_CH = "create table " + DATABASE_TABLE_ACAGEMEG_2ND_CH
             + " ("
-            + COLUMN_ID_2ND_CH + " integer primary key autoincrement, "
-            + TITLE_COLUMN_2ND_CH + " text not null, "
-            + DESCRIPTION_COLUMN_2ND_CH + " text, "
-            + VIDEO_ID_COLUMN_2ND_CH + " text, "
-            + URL_COLUMN_2ND_CH + " text);";
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + TITLE_COLUMN + " text not null, "
+            + DESCRIPTION_COLUMN + " text, "
+            + VIDEO_ID_COLUMN + " text, "
+            + PUBLISHEDAT_COLUMN + " text, "
+            + URL_COLUMN + " text);";
+
+//    + COLUMN_ID_2ND_CH + " integer primary key autoincrement, "
+//            + TITLE_COLUMN_2ND_CH + " text not null, "
+//            + DESCRIPTION_COLUMN_2ND_CH + " text, "
+//            + VIDEO_ID_COLUMN_2ND_CH + " text, "
+//            + URL_COLUMN_2ND_CH + " text);";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -157,6 +157,47 @@ public class FirstFragment extends Fragment {
                 tv1 = (TextView) view.findViewById(R.id.tv1);
                 lv1 = (ListView) view.findViewById(R.id.lv1);
 
+                mDatabaseHelper = new DatabaseHelper(getActivity());
+                mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
+                String query =
+                        "SELECT * FROM "
+                                + DatabaseHelper.DATABASE_TABLE_ACAGEMEG
+                                + " WHERE channelTitle='AcademeG 2nd CH'"
+                        ;
+//                                + DatabaseHelper.CHANNEL_TITLE_COLUMN + "='AcademeG 2nd CH'";
+                cursor = mSqLiteDatabase.rawQuery(query, null);
+
+                if (cursor.getCount() > 0){
+                    if (cursor.moveToFirst()){
+                        itemName = new String[cursor.getCount()];
+                        itemImage = new String[cursor.getCount()];
+                        itemDescription = new String[cursor.getCount()];
+                        itemPublished = new String[cursor.getCount()];
+                        itemChannelTitle = new String[cursor.getCount()];
+                        for (int i = 0; i < cursor.getCount(); i++){
+                            itemName[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
+                            itemImage[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.URL_COLUMN));
+                            itemDescription[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
+                            itemPublished[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PUBLISHEDAT_COLUMN));
+                            itemChannelTitle[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHANNEL_TITLE_COLUMN));
+                            cursor.moveToNext();
+                        }
+                    }
+                }
+
+                cursor.close();
+                mSqLiteDatabase.close();
+
+                AdapterListVideo adapterListVideo1 = new AdapterListVideo(
+                        getActivity(),
+                        itemName,
+                        itemImage,
+                        itemDescription,
+                        itemPublished,
+                        itemChannelTitle);
+
+                lv1.setAdapter(adapterListVideo1);
+
 
 //                final String[] catNames = new String[] {
 //                        "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька",
@@ -462,7 +503,7 @@ public class FirstFragment extends Fragment {
 
                         Parcelable state = lv2.onSaveInstanceState();
 
-                        fillAdapterListVideo();     //заполняем ListView адаптером
+//                        fillAdapterListVideo();     //заполняем ListView адаптером
                         lv2.setAdapter(adapterListVideo);
 
 

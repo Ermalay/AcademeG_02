@@ -18,9 +18,17 @@ public class AdapterListVideo extends ArrayAdapter<String> {
     private final String[] itemName;
     private final String[] itemDescription;
     private final String[] itemPublished;
+    private final String[] channelTitle;
 
 
-    public AdapterListVideo(Activity context, String[] itemName, String[] itemImage, String[] itemDescription, String[] itemPublished){
+
+    public AdapterListVideo(
+            Activity context,
+            String[] itemName,
+            String[] itemImage,
+            String[] itemDescription,
+            String[] itemPublished,
+            String[] channelTitle){
         super(context, R.layout.my_list, itemName);
 
         this.context = context;
@@ -28,6 +36,7 @@ public class AdapterListVideo extends ArrayAdapter<String> {
         this.itemImage = itemImage;
         this.itemDescription = itemDescription;
         this.itemPublished = itemPublished;
+        this.channelTitle = channelTitle;
     }
 
 
@@ -39,10 +48,12 @@ public class AdapterListVideo extends ArrayAdapter<String> {
         TextView desc = (TextView) rowView.findViewById(R.id.desc);
         ImageView icon = (ImageView) rowView.findViewById(R.id.icon);
         TextView publish = (TextView) rowView.findViewById(R.id.tvPublished);
+        TextView channel = (TextView) rowView.findViewById(R.id.tvChannelTitle);
 
         item.setText(itemName[position]);
         desc.setText(itemDescription[position]);
         publish.setText(itemPublished[position]);
+        channel.setText(channelTitle[position]);
 
         Picasso
                 .with(context)

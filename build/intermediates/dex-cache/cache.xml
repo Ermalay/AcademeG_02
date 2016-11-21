@@ -34,7 +34,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="beeb7f3ae11321b347981a676280e4d78fdc4174">
+        sha1="c32e128a24acedfce19559e26b554e9c6dff5893">
         <dex dex="C:\MailRuCloud\Android\samples\AcademeG2\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_02f473c063b96f2efee6f62c45fe82b627f4d102\classes.dex" />
     </item>
     <item
@@ -169,7 +169,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="0f0fa7325da1df1cfaf607e6525d2964c1a7c96d">
+        sha1="5b0b6ddd9940afaaf592443afeb7b93f16d1620d">
         <dex dex="C:\MailRuCloud\Android\samples\AcademeG2\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_55ed73e431b4277bf9076864299751f3f1623110\classes.dex" />
     </item>
     <item

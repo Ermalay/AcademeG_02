@@ -41,8 +41,8 @@ import ru.novil.sergey.navigationdraweractivity.view.SplashScreen;
 
 public class FirstFragment extends Fragment {
 
-    public String[] itemName, itemImage, itemDescription, itemPublished, itemsVideoIdSQL;
-    String title, publishedAt, description, url, videoId, videoIdPre, nextPageToken, prevPageToken, cursorVideoID, itemVideoID;
+    public String[] itemName, itemImage, itemDescription, itemPublished, itemChannelTitle;
+    String title, publishedAt, channelTitle, description, url, videoId, videoIdPre, nextPageToken, prevPageToken, cursorVideoID, itemVideoID;
     String pageToken = "";
 
     boolean loadingMore = true;
@@ -155,23 +155,25 @@ public class FirstFragment extends Fragment {
                 View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item_1,
                         container, false);
                 tv1 = (TextView) view.findViewById(R.id.tv1);
-
-                final String[] catNames = new String[] {
-                        "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька",
-                        "Томасина", "Кристина", "Пушок", "Дымка", "Кузя",
-                        "Китти", "Масяня", "Симба"
-                };
                 lv1 = (ListView) view.findViewById(R.id.lv1);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                        android.R.layout.simple_list_item_1, catNames);
-                lv1.setAdapter(adapter);
 
-                lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getActivity(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+//                final String[] catNames = new String[] {
+//                        "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька",
+//                        "Томасина", "Кристина", "Пушок", "Дымка", "Кузя",
+//                        "Китти", "Масяня", "Симба"
+//                };
+//
+//                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+//                        android.R.layout.simple_list_item_1, catNames);
+//                lv1.setAdapter(adapter);
+//
+//                lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                        Toast.makeText(getActivity(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
                 container.addView(view);
                 return view;
@@ -294,7 +296,7 @@ public class FirstFragment extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 //                        Intent intent = new Intent(getActivity(), YouTubeActivity.class);
 
-                        returnCursor2nd();
+                        returnCursor();
                         cursor.moveToPosition(position);
                         String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
                         cursor.close();
@@ -440,6 +442,7 @@ public class FirstFragment extends Fragment {
                             title = snippet.getString("title");//из объекта snippet берём строку по ключу title
                             description = snippet.getString("description");
                             publishedAt = snippet.getString("publishedAt");
+                            channelTitle = snippet.getString("channelTitle");
                             JSONObject thumbnails = snippet.getJSONObject("thumbnails");
                             JSONObject medium = thumbnails.getJSONObject("medium");
                             url = medium.getString("url");
@@ -457,10 +460,12 @@ public class FirstFragment extends Fragment {
 
                         fillArrayItems(returnCursor());           //заполняем массивы для адаптера
 
+                        Parcelable state = lv2.onSaveInstanceState();
+
                         fillAdapterListVideo();     //заполняем ListView адаптером
                         lv2.setAdapter(adapterListVideo);
 
-                        Parcelable state = lv2.onSaveInstanceState();
+
                         lv2.onRestoreInstanceState(state);
                         mSwipeRefreshLayout.setRefreshing(false);//указываем об окончании обновления страницы
                         loadingMore = true;             //Вызываем onScroll только один раз
@@ -549,6 +554,7 @@ public class FirstFragment extends Fragment {
                     title = snippet.getString("title");//из объекта snippet берём строку по ключу title
                     description = snippet.getString("description");
                     publishedAt = snippet.getString("publishedAt");
+                    channelTitle = snippet.getString("channelTitle");
                     JSONObject thumbnails = snippet.getJSONObject("thumbnails");
                     JSONObject medium = thumbnails.getJSONObject("medium");
                     url = medium.getString("url");
@@ -557,14 +563,14 @@ public class FirstFragment extends Fragment {
 
                     //Если такого videoId ещё нет в Базе или База пустая
                     if (compareSQLiteAndJSON(videoId)){
-                        fillSQLite(DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH);
+                        fillSQLite(DatabaseHelper.DATABASE_TABLE_ACAGEMEG);
                     }
                 }
 
                 cursor.close();
                 mSqLiteDatabase.close();
 
-                fillArrayItems(returnCursor2nd());           //заполняем массивы для адаптера
+                fillArrayItems(returnCursor());           //заполняем массивы для адаптера
 
                 Parcelable state = lv3.onSaveInstanceState();
 
@@ -598,18 +604,18 @@ public class FirstFragment extends Fragment {
     public Cursor returnCursor (){
         mDatabaseHelper = new DatabaseHelper(getActivity());
         mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG;
+        String query = "SELECT * FROM " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG;
         cursor = mSqLiteDatabase.rawQuery(query, null);
         return cursor;
     }
 
-    public Cursor returnCursor2nd (){
-        mDatabaseHelper = new DatabaseHelper(getActivity());
-        mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH;
-        cursor = mSqLiteDatabase.rawQuery(query, null);
-        return cursor;
-    }
+//    public Cursor returnCursor2nd (){
+//        mDatabaseHelper = new DatabaseHelper(getActivity());
+//        mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
+//        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH;
+//        cursor = mSqLiteDatabase.rawQuery(query, null);
+//        return cursor;
+//    }
 
     public void fillSQLite (String sDataBaseTable){
         contentValues.put(DatabaseHelper.TITLE_COLUMN, title);
@@ -617,13 +623,14 @@ public class FirstFragment extends Fragment {
         contentValues.put(DatabaseHelper.DESCRIPTION_COLUMN, description);
         contentValues.put(DatabaseHelper.VIDEO_ID_COLUMN, videoId);
         contentValues.put(DatabaseHelper.PUBLISHEDAT_COLUMN, publishedAt);
+        contentValues.put(DatabaseHelper.CHANNEL_TITLE_COLUMN, channelTitle);
 //        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG, null, contentValues); //добавляем contentValues в SQLite
         mSqLiteDatabase.insert(sDataBaseTable, null, contentValues); //добавляем contentValues в SQLite
     }
 
     public void fillAdapterListVideo(){
 //        AdapterListVideo adapterListVideo = new AdapterListVideo(getActivity(), itemName, itemImage, itemDescription);
-        adapterListVideo = new AdapterListVideo(getActivity(), itemName, itemImage, itemDescription, itemPublished);
+        adapterListVideo = new AdapterListVideo(getActivity(), itemName, itemImage, itemDescription, itemPublished, itemChannelTitle);
 //        lv2.setAdapter(adapterListVideo);
 //        loadingMore = true;
     }
@@ -653,11 +660,13 @@ public class FirstFragment extends Fragment {
                 itemImage = new String[cursor.getCount()];
                 itemDescription = new String[cursor.getCount()];
                 itemPublished = new String[cursor.getCount()];
+                itemChannelTitle = new String[cursor.getCount()];
                 for (int i = 0; i < cursor.getCount(); i++){
                     itemName[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
                     itemImage[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.URL_COLUMN));
                     itemDescription[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
                     itemPublished[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PUBLISHEDAT_COLUMN));
+                    itemChannelTitle[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHANNEL_TITLE_COLUMN));
                     cursor.moveToNext();
                 }
 

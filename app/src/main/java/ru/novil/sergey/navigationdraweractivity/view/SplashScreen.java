@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ru.novil.sergey.navigationdraweractivity.FirstFragment;
 import ru.novil.sergey.navigationdraweractivity.MainActivity;
 import ru.novil.sergey.navigationdraweractivity.R;
 import ru.novil.sergey.navigationdraweractivity.sqlite.DatabaseHelper;
@@ -46,7 +47,6 @@ public class SplashScreen extends AppCompatActivity {
 //        myAsyncTask.execute();
 
 //        new ParseTaskAka().execute();
-
 
 
         new Handler().postDelayed(new Runnable() {
@@ -173,7 +173,7 @@ public class SplashScreen extends AppCompatActivity {
         contentValues.put(DatabaseHelper.URL_COLUMN, url);
         contentValues.put(DatabaseHelper.DESCRIPTION_COLUMN, description);
         contentValues.put(DatabaseHelper.VIDEO_ID_COLUMN, videoId);
-        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH, null, contentValues); //добавляем contentValues в SQLite
+        mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG, null, contentValues); //добавляем contentValues в SQLite
     }
 
     public boolean compareSQLiteAndJSON (String videoId){
@@ -195,7 +195,7 @@ public class SplashScreen extends AppCompatActivity {
     public Cursor returnCursor (){
         mDatabaseHelper = new DatabaseHelper(getBaseContext());
         mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH;
+        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG;
         cursor = mSqLiteDatabase.rawQuery(query, null);
         return cursor;
     }

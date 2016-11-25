@@ -1,11 +1,13 @@
 package ru.novil.sergey.navigationdraweractivity;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -34,6 +36,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ru.novil.sergey.navigationdraweractivity.other.MyApplication;
 import ru.novil.sergey.navigationdraweractivity.sqlite.DatabaseHelper;
 import ru.novil.sergey.navigationdraweractivity.sqlite.MyAsyncTask;
 import ru.novil.sergey.navigationdraweractivity.view.SlidingTabLayout;
@@ -46,8 +49,14 @@ public class FirstFragment extends Fragment {
     String pageToken = "";
 
     boolean loadingMore = true;
+    boolean bNextUrl = true;
 
-    AdapterListVideo adapterListVideo;
+    ParseTask parseTask;
+    ParseTask2nd parseTask2nd;
+
+//    MyApplication myApplication;
+
+    AdapterListVideo adapterListVideo, adapterListVideo1;
 
     DatabaseHelper mDatabaseHelper;
     SQLiteDatabase mSqLiteDatabase;
@@ -151,71 +160,44 @@ public class FirstFragment extends Fragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             if (position == 0) {
+                Toast.makeText(getActivity(), "Запущена вкладка №1", Toast.LENGTH_SHORT).show();
                 // Надуть новый макет с наших ресурсов
                 View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item_1,
                         container, false);
-                tv1 = (TextView) view.findViewById(R.id.tv1);
                 lv1 = (ListView) view.findViewById(R.id.lv1);
+                TextView tv7 = (TextView) view.findViewById(R.id.tv7);
+                tv7.setText(pageToken);
+//вывод списка lv1
+                mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+                mSwipeRefreshLayout.setOnRefreshListener(this);
+                mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                        android.R.color.holo_green_light,
+                        android.R.color.holo_orange_light,
+                        android.R.color.holo_red_light);
 
-                mDatabaseHelper = new DatabaseHelper(getActivity());
-                mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-                String query =
-                        "SELECT * FROM "
-                                + DatabaseHelper.DATABASE_TABLE_ACAGEMEG
-                                + " WHERE channelTitle='AcademeG 2nd CH'"
-                        ;
-//                                + DatabaseHelper.CHANNEL_TITLE_COLUMN + "='AcademeG 2nd CH'";
-                cursor = mSqLiteDatabase.rawQuery(query, null);
+                View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layot, null, false);
+                lv1.addFooterView(footerView);
 
-                if (cursor.getCount() > 0){
-                    if (cursor.moveToFirst()){
-                        itemName = new String[cursor.getCount()];
-                        itemImage = new String[cursor.getCount()];
-                        itemDescription = new String[cursor.getCount()];
-                        itemPublished = new String[cursor.getCount()];
-                        itemChannelTitle = new String[cursor.getCount()];
-                        for (int i = 0; i < cursor.getCount(); i++){
-                            itemName[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
-                            itemImage[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.URL_COLUMN));
-                            itemDescription[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
-                            itemPublished[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PUBLISHEDAT_COLUMN));
-                            itemChannelTitle[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHANNEL_TITLE_COLUMN));
-                            cursor.moveToNext();
-                        }
-                    }
-                }
+                fillListView("video_academeg", lv1);
 
-                cursor.close();
-                mSqLiteDatabase.close();
-
-                AdapterListVideo adapterListVideo1 = new AdapterListVideo(
-                        getActivity(),
-                        itemName,
-                        itemImage,
-                        itemDescription,
-                        itemPublished,
-                        itemChannelTitle);
-
-                lv1.setAdapter(adapterListVideo1);
-
-
-//                final String[] catNames = new String[] {
-//                        "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька",
-//                        "Томасина", "Кристина", "Пушок", "Дымка", "Кузя",
-//                        "Китти", "Масяня", "Симба"
-//                };
-//
-//                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-//                        android.R.layout.simple_list_item_1, catNames);
-//                lv1.setAdapter(adapter);
-//
-//                lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                lv1.setOnScrollListener(new AbsListView.OnScrollListener() {
 //                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                        Toast.makeText(getActivity(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+//                    public void onScrollStateChanged(AbsListView absListView, int i) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+//                        if ((i == i2 - 7) && loadingMore){
+//                            loadingMore = false;
+//                            pageToken = myApplication.getsNextPageTokenAca();
+////                            pageToken = nextPageToken;
+//                            new ParseTask4All().execute();
+//                        }
 //                    }
 //                });
 
+//конец вывода списка lv1
                 container.addView(view);
                 return view;
 
@@ -239,58 +221,63 @@ public class FirstFragment extends Fragment {
                 View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layot, null, false);
                 lv2.addFooterView(footerView);
 
-                lv2.setAdapter(adapterListVideo);
+//вывод списка lv2
 
-                lv2.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(AbsListView absListView, int i) {
-
-                    }
-
-                    @Override
-                    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                        if ((i == i2 - 5) && loadingMore){
-                            loadingMore = false;
-                            pageToken = nextPageToken;
-                            new ParseTask().execute();
-                        }
-                    }
-                });
-
-                lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//                        Intent intent = new Intent(getActivity(), YouTubeActivity.class);
-
-                        returnCursor();
-                        cursor.moveToPosition(position);
-                        String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
-                        cursor.close();
-
-                        Intent intent = new Intent(getActivity(), Delete_It.class);
-                        intent.putExtra("pushkin", vId);
-                        startActivity(intent);
-                        Toast.makeText(getActivity(), "onItemClick - " + position, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                fillListView("video_academeg WHERE channelTitle='AcademeG'", lv2);
 
 
-                Button buttonPager2 = (Button) view.findViewById(R.id.buttonPager2);
-                buttonPager2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getActivity(), "Кнопочку нажали!!!", Toast.LENGTH_SHORT).show();
-                        pageToken = nextPageToken;
-                        new ParseTask().execute();
-//                        SplashScreen splashScreen = new SplashScreen();
-//                        splashScreen.
-                    }
-                });
+//конец вывода списка lv2
 
-
-                new ParseTask().execute();  //читаем JSON и заполняем SQLite
-
-                tv2.setText(nextPageToken);
+//                lv2.setOnScrollListener(new AbsListView.OnScrollListener() {
+//                    @Override
+//                    public void onScrollStateChanged(AbsListView absListView, int i) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+//                        if ((i == i2 - 5) && loadingMore){
+//                            loadingMore = false;
+//                            pageToken = nextPageToken;
+//                            new ParseTask().execute();
+//                        }
+//                    }
+//                });
+//
+//                lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+////                        Intent intent = new Intent(getActivity(), YouTubeActivity.class);
+//
+//                        returnCursor();
+//                        cursor.moveToPosition(position);
+//                        String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
+//                        cursor.close();
+//
+//                        Intent intent = new Intent(getActivity(), Delete_It.class);
+//                        intent.putExtra("pushkin", vId);
+//                        startActivity(intent);
+//                        Toast.makeText(getActivity(), "onItemClick - " + position, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//
+//                Button buttonPager2 = (Button) view.findViewById(R.id.buttonPager2);
+//                buttonPager2.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Toast.makeText(getActivity(), "Кнопочку нажали!!!", Toast.LENGTH_SHORT).show();
+//                        pageToken = nextPageToken;
+//                        new ParseTask().execute();
+////                        SplashScreen splashScreen = new SplashScreen();
+////                        splashScreen.
+//                    }
+//                });
+//
+//
+//                new ParseTask().execute();  //читаем JSON и заполняем SQLite
+//
+//                tv2.setText(nextPageToken);
                 container.addView(view);
                 return view;
 
@@ -314,7 +301,12 @@ public class FirstFragment extends Fragment {
                 View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layot, null, false);
                 lv3.addFooterView(footerView);
 
-                lv3.setAdapter(adapterListVideo);
+//вывод списка lv3
+
+                fillListView("video_academeg WHERE channelTitle='AcademeG 2nd CH'", lv3);
+
+
+//конец вывода списка lv3
 
                 lv3.setOnScrollListener(new AbsListView.OnScrollListener() {
                     @Override
@@ -326,7 +318,9 @@ public class FirstFragment extends Fragment {
                     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                         if ((i == i2 - 5) && loadingMore){
                             loadingMore = false;
-                            pageToken = nextPageToken;
+//                            final MyApplication myApplication = (MyApplication) getActivity().getApplication();
+//                            pageToken = myApplication.getPageTokenAca2nd();
+//                            pageToken = nextPageToken;
                             new ParseTask2nd().execute();
                         }
                     }
@@ -364,9 +358,13 @@ public class FirstFragment extends Fragment {
 
 
 //                new ParseTask().execute();  //читаем JSON и заполняем SQLite
-                new ParseTask2nd().execute();
+//                new ParseTask2nd().execute();
 
-                tv3.setText(nextPageToken);
+//                tv3.setText(nextPageToken);
+                final MyApplication myApplication = (MyApplication) getActivity().getApplication();
+                tv3.setText(myApplication.getPageTokenAca2nd());
+
+
                 container.addView(view);
                 return view;
             }
@@ -405,7 +403,118 @@ public class FirstFragment extends Fragment {
         }
     }
 
-        private class ParseTask extends AsyncTask<Void, Void, String> {
+    private class ParseTask4All extends AsyncTask<Void, Void, String> {
+
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String resultJson = "";
+
+        @Override
+        protected String doInBackground(Void... params) {
+            // получаем данные с внешнего ресурса
+            try {
+                String firstPartURL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
+                String maxResults = "&maxResults=";
+                String maxResultsKey = "6";
+                String prePageToken = "&pageToken=";
+                String playlistId = "&playlistId=";
+//                    String playlistIdKey = "UUM0RSbJnk0nAUvfH4Pp7mjQ";    //мой канал
+//                String playlistIdKey = "UUQeaXcwLUDeRoNVThZXLkmw";      //Big Test Drive
+                String playlistIdKey = "UUL1C1f9HWf3Hyct4aqBJi1A";      //AcademeG2nd
+
+                String lastPartURL = "&key=";
+                String developerKey = "AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk";
+
+                URL url = new URL(firstPartURL + maxResults + maxResultsKey + prePageToken + pageToken
+                        + playlistId + playlistIdKey + lastPartURL + developerKey);
+//                    URL url = new URL("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=1&pageToken=&playlistId=UUM0RSbJnk0nAUvfH4Pp7mjQ&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk");
+
+//                    printURL(url.toString());       //показывает строку url
+
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+
+                resultJson = buffer.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return resultJson;
+        }
+
+        @Override
+        protected void onPostExecute(String strJson) {
+            super.onPostExecute(strJson);
+            JSONObject dataJsonObj = null;
+
+            try {
+                dataJsonObj = new JSONObject(strJson);
+
+                if (dataJsonObj.has("nextPageToken")) {
+                    nextPageToken = dataJsonObj.getString("nextPageToken");
+                } else if (dataJsonObj.has("prevPageToken")) {
+                    prevPageToken = dataJsonObj.getString("prevPageToken");
+                }
+
+                JSONArray items = dataJsonObj.getJSONArray("items");
+
+
+                mDatabaseHelper = new DatabaseHelper(getActivity());
+                mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
+                contentValues = new ContentValues();
+
+                returnCursor();
+
+                for (int i = 0; i < items.length(); i++) {
+                    JSONObject item = items.getJSONObject(i);//берём каждый пункт из массива items
+                    JSONObject snippet = item.getJSONObject("snippet");//из пункта берём объект по ключу "snippet"
+                    title = snippet.getString("title");//из объекта snippet берём строку по ключу title
+                    description = snippet.getString("description");
+                    publishedAt = snippet.getString("publishedAt");
+                    channelTitle = snippet.getString("channelTitle");
+                    JSONObject thumbnails = snippet.getJSONObject("thumbnails");
+                    JSONObject medium = thumbnails.getJSONObject("medium");
+                    url = medium.getString("url");
+                    JSONObject resourceId = snippet.getJSONObject("resourceId");
+                    videoId = resourceId.getString("videoId");
+
+                    //Если такого videoId ещё нет в Базе или База пустая
+                    if (compareSQLiteAndJSON(videoId)){
+                        fillSQLite(DatabaseHelper.DATABASE_TABLE_ACAGEMEG);
+                    }
+                }
+
+                cursor.close();
+                mSqLiteDatabase.close();
+
+                fillArrayItems(returnCursor());           //заполняем массивы для адаптера
+
+                Parcelable state = lv1.onSaveInstanceState();
+
+                fillAdapterListVideo();     //заполняем ListView адаптером
+                lv1.setAdapter(adapterListVideo);
+
+                lv1.onRestoreInstanceState(state);
+                mSwipeRefreshLayout.setRefreshing(false);//указываем об окончании обновления страницы
+                loadingMore = true;             //Вызываем onScroll только один раз
+                Toast.makeText(getActivity(), "!!! new ParseTask().execute(); !!!", Toast.LENGTH_SHORT).show();
+            }catch (JSONException e) {e.printStackTrace();}
+        }
+    }//Конец ParseTask4All
+
+    private class ParseTask extends AsyncTask<Void, Void, String> {
 
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
@@ -516,6 +625,7 @@ public class FirstFragment extends Fragment {
         }//Конец ParseTask
 
     private class ParseTask2nd extends AsyncTask<Void, Void, String> {
+//        myApplication.getPageToken()
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -523,6 +633,7 @@ public class FirstFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
+
             // получаем данные с внешнего ресурса
             try {
                 String firstPartURL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
@@ -537,7 +648,10 @@ public class FirstFragment extends Fragment {
                 String lastPartURL = "&key=";
                 String developerKey = "AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk";
 
-                URL url = new URL(firstPartURL + maxResults + maxResultsKey + prePageToken + pageToken
+
+                final MyApplication myApplication = (MyApplication) getActivity().getApplication();
+
+                URL url = new URL(firstPartURL + maxResults + maxResultsKey + prePageToken + myApplication.getPageTokenAca2nd() //+ pageToken
                         + playlistId + playlistIdKey + lastPartURL + developerKey);
 //                    URL url = new URL("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=1&pageToken=&playlistId=UUM0RSbJnk0nAUvfH4Pp7mjQ&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk");
 
@@ -575,7 +689,10 @@ public class FirstFragment extends Fragment {
                 dataJsonObj = new JSONObject(strJson);
 
                 if (dataJsonObj.has("nextPageToken")) {
-                    nextPageToken = dataJsonObj.getString("nextPageToken");
+
+                    final MyApplication myApplication = (MyApplication) getActivity().getApplication();
+                    myApplication.setPageTokenAca2nd(dataJsonObj.getString("nextPageToken"));
+//                    nextPageToken = dataJsonObj.getString("nextPageToken");
                 } else if (dataJsonObj.has("prevPageToken")) {
                     prevPageToken = dataJsonObj.getString("prevPageToken");
                 }
@@ -721,5 +838,63 @@ public class FirstFragment extends Fragment {
 
         cursor.close();
         mSqLiteDatabase.close();
+    }
+
+    public void fillListView (String databaseTable, ListView someLv){
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
+        String query =
+                "SELECT * FROM "
+                        + databaseTable
+                ;
+//                                + " WHERE "
+//                                + DatabaseHelper.CHANNEL_TITLE_COLUMN
+//                                + "='AcademeG 2nd CH'";
+
+        cursor = mSqLiteDatabase.rawQuery(query, null);
+
+        if (cursor.getCount() > 0){
+            if (cursor.moveToFirst()){
+                String[] itemName0 = new String[cursor.getCount()];
+                String[] itemImage0 = new String[cursor.getCount()];
+                String[] itemDescription0 = new String[cursor.getCount()];
+                String[] itemPublished0 = new String[cursor.getCount()];
+                String[] itemChannelTitle0 = new String[cursor.getCount()];
+                for (int i = 0; i < cursor.getCount(); i++){
+                    itemName0[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN));
+                    itemImage0[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.URL_COLUMN));
+                    itemDescription0[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
+                    itemPublished0[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PUBLISHEDAT_COLUMN));
+                    itemChannelTitle0[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CHANNEL_TITLE_COLUMN));
+                    cursor.moveToNext();
+                }
+                AdapterListVideo adapterListVideo1 = new AdapterListVideo(
+                        getActivity(),
+                        itemName0,
+                        itemImage0,
+                        itemDescription0,
+                        itemPublished0,
+                        itemChannelTitle0);
+                someLv.setAdapter(adapterListVideo1);
+            }
+
+
+
+
+
+        } else {
+            Toast.makeText(getActivity(), "Курсор пустой!!!", Toast.LENGTH_SHORT).show();
+        }
+
+        cursor.close();
+        mSqLiteDatabase.close();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void startAsyncTaskInParallel(AsyncTask task) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        else
+            task.execute();
     }
 }

@@ -26,7 +26,7 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
 
     HttpURLConnection urlConnection = null;
     BufferedReader reader = null;
-    String title, description, url, videoId, videoIdPre, nextPageToken, prevPageToken, cursorVideoID, itemVideoID;
+    String title, description, url, videoId, publishedAt, nextPageToken, prevPageToken, channelTitle;
     String resultJson = "";
     String pageToken = "";
 
@@ -40,9 +40,9 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
     MainActivity mainActivity;
     FirstFragment firstFragment;
 
-    public MyAsyncTask(FirstFragment firstFragment) {
-        this.firstFragment = firstFragment;
-    }
+//    public MyAsyncTask(FirstFragment firstFragment) {
+//        this.firstFragment = firstFragment;
+//    }
 
     public MyAsyncTask(Context context) {
         this.context = context;
@@ -58,17 +58,15 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
             String prePageToken = "&pageToken=";
             String playlistId = "&playlistId=";
 //                    String playlistIdKey = "UUM0RSbJnk0nAUvfH4Pp7mjQ";    //мой канал
-//            String playlistIdKey = "UUQeaXcwLUDeRoNVThZXLkmw";      //Big Test Drive
-            String playlistIdKey = "UU0lT9K8Wfuc1KPqm6YjRf1A";      //Akademeg
+//                String playlistIdKey = "UUQeaXcwLUDeRoNVThZXLkmw";      //Big Test Drive
+            String playlistIdKey = "UUL1C1f9HWf3Hyct4aqBJi1A";      //AcademeG2nd
+
             String lastPartURL = "&key=";
             String developerKey = "AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk";
 
             URL url = new URL(firstPartURL + maxResults + maxResultsKey + prePageToken + pageToken
                     + playlistId + playlistIdKey + lastPartURL + developerKey);
-                    //Большой тест-драйв
 //                    URL url = new URL("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=1&pageToken=&playlistId=UUM0RSbJnk0nAUvfH4Pp7mjQ&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk");
-                    //AcademeG
-//                    URL url = new URL("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&pageToken=&playlistId=UU0lT9K8Wfuc1KPqm6YjRf1A&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk");
 
 //                    printURL(url.toString());       //показывает строку url
 
@@ -116,23 +114,29 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
             mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
             contentValues = new ContentValues();
 
-//            returnCursor();
+            returnCursor();
 
             for (int i = 0; i < items.length(); i++) {
                 JSONObject item = items.getJSONObject(i);//берём каждый пункт из массива items
                 JSONObject snippet = item.getJSONObject("snippet");//из пункта берём объект по ключу "snippet"
                 title = snippet.getString("title");//из объекта snippet берём строку по ключу title
                 description = snippet.getString("description");
+                publishedAt = snippet.getString("publishedAt");
+                channelTitle = snippet.getString("channelTitle");
                 JSONObject thumbnails = snippet.getJSONObject("thumbnails");
                 JSONObject medium = thumbnails.getJSONObject("medium");
                 url = medium.getString("url");
                 JSONObject resourceId = snippet.getJSONObject("resourceId");
                 videoId = resourceId.getString("videoId");
 
-//                contentValues.put(DatabaseHelper.TITLE_COLUMN, title);
-//                mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE, null, contentValues);
+                //Если такого videoId ещё нет в Базе или База пустая
+                if (compareSQLiteAndJSON(videoId)){
+                    fillSQLite();
+                }
             }
-//            mSqLiteDatabase.close();
+
+            cursor.close();
+            mSqLiteDatabase.close();
 
 
         }catch (JSONException e) {e.printStackTrace();}
@@ -143,11 +147,13 @@ public class MyAsyncTask extends AsyncTask <Void, Void, String> {
         contentValues.put(DatabaseHelper.URL_COLUMN, url);
         contentValues.put(DatabaseHelper.DESCRIPTION_COLUMN, description);
         contentValues.put(DatabaseHelper.VIDEO_ID_COLUMN, videoId);
+        contentValues.put(DatabaseHelper.PUBLISHEDAT_COLUMN, publishedAt);
+        contentValues.put(DatabaseHelper.CHANNEL_TITLE_COLUMN, channelTitle);
         mSqLiteDatabase.insert(DatabaseHelper.DATABASE_TABLE_ACAGEMEG, null, contentValues); //добавляем contentValues в SQLite
     }
 
     public boolean compareSQLiteAndJSON (String videoId){
-//        returnCursor();
+        returnCursor();
         if (cursor.getCount() > 0){                             // Если в Базе что-то есть
             for (int i = 0; i < cursor.getCount(); i++){        // Перебираем cursor
                 cursor.moveToPosition(i);                       // cursor на позицию i

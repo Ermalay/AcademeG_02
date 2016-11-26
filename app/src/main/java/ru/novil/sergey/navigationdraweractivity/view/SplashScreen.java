@@ -34,6 +34,10 @@ public class SplashScreen extends AppCompatActivity {
     SQLiteDatabase mSqLiteDatabase;
     Cursor cursor;
 
+    String[] saUrls = {
+            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=7&pageToken=&playlistId=UU0lT9K8Wfuc1KPqm6YjRf1A&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk",
+            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=6&pageToken=&playlistId=UUL1C1f9HWf3Hyct4aqBJi1A&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk"};
+
     String title, description, url, videoId, publishedAt, nextPageToken, prevPageToken, channelTitle;
     String pageToken = "";
 
@@ -52,18 +56,16 @@ public class SplashScreen extends AppCompatActivity {
 //        MyAsyncTask myAsyncTask = new MyAsyncTask(SplashScreen.this);
 //        myAsyncTask.execute();
 
-
+        mainProcessing();
 
 //        final MyApplication myApplication = (MyApplication) getApplication();
 ////        myApplication.setPageToken("Что-то уже есть");
 //        myApplication.setPageToken("второй вариант");
 
-
-
-
-
-
-        new ParseTaskAka().execute();
+//        saUrls = new String[]{
+//                "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=6&pageToken=&playlistId=UU0lT9K8Wfuc1KPqm6YjRf1A&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk",
+//                "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=6&pageToken=&playlistId=UUL1C1f9HWf3Hyct4aqBJi1A&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk"};
+//        new ParseTaskAka().execute();
 
 
 //        new Handler().postDelayed(new Runnable() {
@@ -79,6 +81,147 @@ public class SplashScreen extends AppCompatActivity {
 //        }, 2*1000);
 
     }
+
+    // Этот метод вызывается из главного потока GUI.
+    private void mainProcessing() {
+        // Здесь трудоемкие задачи переносятся в дочерний поток.
+        Thread thread = new Thread(null, doBackgroundThreadProcessing,
+                "Background");
+        thread.start();
+    }
+    // Объект Runnable, который запускает метод для выполнения задач
+// в фоновом режиме.
+    private Runnable doBackgroundThreadProcessing = new Runnable() {
+        public void run() {
+//            backgroundThreadProcessing(saUrls);
+            for (int i = 0; i < saUrls.length; i++){
+                fillSQLiteFromJSON(saUrls[i]);
+            }
+
+            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+
+        }
+    };
+    // Метод, который выполняет какие-то действия в фоновом режиме.
+    private void backgroundThreadProcessing(String[] saUrls) {
+        //[ ... Трудоемкие операции ... ]
+    }
+
+    private void fillSQLiteFromJSON(String sUrl){
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String resultJson = "";
+
+        // получаем данные с внешнего ресурса
+        try {
+//            String firstPartURL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
+//            String maxResults = "&maxResults=";
+//            String maxResultsKey = "6";
+//            String prePageToken = "&pageToken=";
+//            String playlistId = "&playlistId=";
+////                String playlistIdKey = "UUM0RSbJnk0nAUvfH4Pp7mjQ";        //мой канал
+////                String playlistIdKey = "UUQeaXcwLUDeRoNVThZXLkmw";      //Big Test Drive
+//            String playlistIdKey = "UU0lT9K8Wfuc1KPqm6YjRf1A";      //AcademeG
+////                String playlistIdKey = "UUL1C1f9HWf3Hyct4aqBJi1A";      //AcademeG2ndCH
+//
+//            //AcademeG DailyStream
+////                https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=3&playlistId=UUEVNTzTFSGkZGTjVE9ipXpg&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk
+//
+//
+//            String lastPartURL = "&key=";
+//            String developerKey = "AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk";
+//
+//            MyApplication myApplication = ((MyApplication) getApplicationContext());
+//
+//            URL url = new URL(firstPartURL + maxResults + maxResultsKey + prePageToken + myApplication.getPageTokenAca()
+//                    + playlistId + playlistIdKey + lastPartURL + developerKey);
+
+
+//                    URL url = new URL("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=1&pageToken=&playlistId=UUM0RSbJnk0nAUvfH4Pp7mjQ&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk");
+
+            URL url = new URL(sUrl);
+
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+
+            InputStream inputStream = urlConnection.getInputStream();
+            StringBuffer buffer = new StringBuffer();
+
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+
+            resultJson = buffer.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+     //---------------------------------------------------------------------------------
+
+        JSONObject dataJsonObj = null;
+//            Toast.makeText(getBaseContext(), "myApplication.getPageTokenAca() - " + myApplication.getPageTokenAca(), Toast.LENGTH_SHORT).show();
+        try {
+            dataJsonObj = new JSONObject(resultJson);
+
+            if (dataJsonObj.has("nextPageToken")) {
+
+                final MyApplication myApplication = (MyApplication) getApplication();
+                myApplication.setPageTokenAca(dataJsonObj.getString("nextPageToken"));
+
+//                    nextPageToken = dataJsonObj.getString("nextPageToken");
+            } else if (dataJsonObj.has("prevPageToken")) {
+                prevPageToken = dataJsonObj.getString("prevPageToken");
+            }
+
+            JSONArray items = dataJsonObj.getJSONArray("items");
+
+
+            mDatabaseHelper = new DatabaseHelper(getApplication());
+            mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
+            contentValues = new ContentValues();
+
+            for (int i = 0; i < items.length(); i++) {
+                JSONObject item = items.getJSONObject(i);//берём каждый пункт из массива items
+                JSONObject snippet = item.getJSONObject("snippet");//из пункта берём объект по ключу "snippet"
+                title = snippet.getString("title");//из объекта snippet берём строку по ключу title
+                description = snippet.getString("description");
+                publishedAt = snippet.getString("publishedAt");
+                channelTitle = snippet.getString("channelTitle");
+                JSONObject thumbnails = snippet.getJSONObject("thumbnails");
+                JSONObject medium = thumbnails.getJSONObject("medium");
+                url = medium.getString("url");
+                JSONObject resourceId = snippet.getJSONObject("resourceId");
+                videoId = resourceId.getString("videoId");
+
+                //Если такого videoId ещё нет в Базе или База пустая
+                if (compareSQLiteAndJSON(videoId)){
+                    fillSQLite();
+                }
+//                    fillSQLite();
+            }
+
+                cursor.close();
+                mSqLiteDatabase.close();
+
+
+        }catch (JSONException e) {e.printStackTrace();}
+
+//        new ParseTaskAka2().execute();
+
+//            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            startActivity(intent);
+//            finish();
+    }
+
+
 
     private class ParseTaskAka extends AsyncTask<Void, Void, String> {
 

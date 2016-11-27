@@ -61,7 +61,7 @@ public class FirstFragment extends Fragment {
     DatabaseHelper mDatabaseHelper;
     SQLiteDatabase mSqLiteDatabase;
     Cursor cursor;
-    ListView lv1, lv2, lv3;
+    ListView lv1, lv2, lv3, lv4;
     public TextView tv, tv1, tv2, tv22, tv23, tv3, tv33, tv333;
     ContentValues contentValues;
 
@@ -146,6 +146,8 @@ public class FirstFragment extends Fragment {
                 return "AcademeG";
             } else if (position == 2) {
                 return "AcademeG 2hd";
+            } else if (position == 3) {
+                return "DailyStream";
             } else {
                 return "Вкладка " + (position + 1);
             }
@@ -298,7 +300,7 @@ public class FirstFragment extends Fragment {
 //вывод списка lv3
 
                 fillListView("video_academeg WHERE channelTitle='AcademeG 2nd CH'", lv3);
-
+//                fillListView("video_academeg WHERE channelTitle='AcademeG DailyStream'", lv3);
 
 //конец вывода списка lv3
 
@@ -359,6 +361,24 @@ public class FirstFragment extends Fragment {
 //                tv3.setText(myApplication.getPageTokenAca2nd());
 
 
+                container.addView(view);
+                return view;
+            }
+            if (position == 3){
+                View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item_4,
+                        container, false);
+
+                Toast.makeText(getActivity(), "Вкладка №4", Toast.LENGTH_SHORT).show();
+
+                lv4 = (ListView) view.findViewById(R.id.lv44);
+
+//вывод списка lv4
+
+                fillListView("video_academeg WHERE channelTitle='AcademeG DailyStream'", lv4);
+//                fillListView("video_academeg WHERE channelTitle='AcademeG'", lv4);
+
+
+//конец вывода списка lv4
                 container.addView(view);
                 return view;
             }

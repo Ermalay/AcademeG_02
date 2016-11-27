@@ -43,7 +43,7 @@ public class SplashScreen extends AppCompatActivity {
 //            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=7&pageToken=&playlistId=UU0lT9K8Wfuc1KPqm6YjRf1A&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk",
 //            "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=6&pageToken=&playlistId=UUL1C1f9HWf3Hyct4aqBJi1A&key=AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk"};
 
-    String[] saUrls = {"UU0lT9K8Wfuc1KPqm6YjRf1A","UUL1C1f9HWf3Hyct4aqBJi1A"};
+    String[] saUrls = {"UU0lT9K8Wfuc1KPqm6YjRf1A","UUL1C1f9HWf3Hyct4aqBJi1A", "UUEVNTzTFSGkZGTjVE9ipXpg"};
 
     String title, description, url, videoId, publishedAt, nextPageToken, prevPageToken, channelTitle;
     String pageToken = "";
@@ -89,15 +89,14 @@ public class SplashScreen extends AppCompatActivity {
 //                    fillSQLiteFromJSON(saUrls[i]);
 //                }
 //            }
+            for (int i = 0; i < saUrls.length; i++){
+                final MyApplication myApplication = (MyApplication) getApplication();
+                myApplication.setPageTokenAca("");
+                for (int j = 0; j < 10; j++){
+                    fillSQLiteFromJSON(saUrls[i]);
+                }
+            }
 
-            for (int i = 0; i < 10; i++){
-                fillSQLiteFromJSON(saUrls[0]);
-            }
-            final MyApplication myApplication = (MyApplication) getApplication();
-            myApplication.setPageTokenAca("");
-            for (int i = 0; i < 10; i++){
-                fillSQLiteFromJSON(saUrls[1]);
-            }
 
 
 

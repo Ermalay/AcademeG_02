@@ -253,7 +253,7 @@ public class FirstFragment extends Fragment {
                         String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
                         cursor.close();
 
-                        Intent intent = new Intent(getActivity(), Delete_It.class);
+                        Intent intent = new Intent(getActivity(), YTActivity.class);
                         intent.putExtra("pushkin", vId);
                         startActivity(intent);
                         Toast.makeText(getActivity(), "onItemClick - " + position, Toast.LENGTH_SHORT).show();

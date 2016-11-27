@@ -35,8 +35,30 @@ public class YTActivity extends YouTubeBaseActivity implements YouTubePlayer.OnI
         playerView.initialize(KEY, this);
         tvYTActivityTitle = (TextView) findViewById(R.id.tvYTActivityTitle);
 
-        tvYTActivityTitle.setText("adsadasdasd");
 
+        returnCursorVId(getIntent().getStringExtra("pushkin"));
+        if (cursor.moveToFirst()){
+            tvYTActivityTitle.setText(cursor.getString(cursor.getColumnIndex(DatabaseHelper.TITLE_COLUMN)));
+        } else {
+            tvYTActivityTitle.setText("курсор пустой");
+        }
+
+
+    }
+
+    public Cursor returnCursorVId (String sVId){
+        mDatabaseHelper = new DatabaseHelper(getBaseContext());
+        mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
+        String query = "SELECT * FROM "
+                + DatabaseHelper.DATABASE_TABLE_ACAGEMEG
+                + " WHERE "
+                + DatabaseHelper.VIDEO_ID_COLUMN
+                + "='"
+                + sVId
+                + "'";
+
+        cursor = mSqLiteDatabase.rawQuery(query, null);
+        return cursor;
     }
 
     @Override

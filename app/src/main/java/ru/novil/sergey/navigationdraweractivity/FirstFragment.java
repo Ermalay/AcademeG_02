@@ -206,9 +206,6 @@ public class FirstFragment extends Fragment {
                 View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item_2,
                         container, false);
 
-                tv2 = (TextView) view.findViewById(R.id.tv2);
-                tv22 = (TextView) view.findViewById(R.id.tv22);
-                tv23 = (TextView) view.findViewById(R.id.tv23);
                 lv2 = (ListView) view.findViewById(R.id.lv2);
 
                 mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
@@ -286,9 +283,6 @@ public class FirstFragment extends Fragment {
                 View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item_3,
                         container, false);
 
-                tv3 = (TextView) view.findViewById(R.id.tv3);
-                tv33 = (TextView) view.findViewById(R.id.tv33);
-                tv333 = (TextView) view.findViewById(R.id.tv333);
                 lv3 = (ListView) view.findViewById(R.id.lv3);
 
                 mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container_3);
@@ -361,8 +355,8 @@ public class FirstFragment extends Fragment {
 //                new ParseTask2nd().execute();
 
 //                tv3.setText(nextPageToken);
-                final MyApplication myApplication = (MyApplication) getActivity().getApplication();
-                tv3.setText(myApplication.getPageTokenAca2nd());
+//                final MyApplication myApplication = (MyApplication) getActivity().getApplication();
+//                tv3.setText(myApplication.getPageTokenAca2nd());
 
 
                 container.addView(view);
@@ -845,7 +839,10 @@ public class FirstFragment extends Fragment {
         mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
         String query =
                 "SELECT * FROM "
-                        + databaseTable
+                + databaseTable
+                + " ORDER BY "
+                + DatabaseHelper.PUBLISHEDAT_COLUMN
+                + " DESC"
                 ;
 //                                + " WHERE "
 //                                + DatabaseHelper.CHANNEL_TITLE_COLUMN

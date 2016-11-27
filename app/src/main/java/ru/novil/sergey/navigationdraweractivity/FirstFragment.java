@@ -243,22 +243,22 @@ public class FirstFragment extends Fragment {
 //                    }
 //                });
 //
-//                lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-////                        Intent intent = new Intent(getActivity(), YouTubeActivity.class);
-//
-//                        returnCursor();
-//                        cursor.moveToPosition(position);
-//                        String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
-//                        cursor.close();
-//
-//                        Intent intent = new Intent(getActivity(), Delete_It.class);
-//                        intent.putExtra("pushkin", vId);
-//                        startActivity(intent);
-//                        Toast.makeText(getActivity(), "onItemClick - " + position, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+                lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+//                        Intent intent = new Intent(getActivity(), YouTubeActivity.class);
+
+                        returnCursor();
+                        cursor.moveToPosition(position);
+                        String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
+                        cursor.close();
+
+                        Intent intent = new Intent(getActivity(), Delete_It.class);
+                        intent.putExtra("pushkin", vId);
+                        startActivity(intent);
+                        Toast.makeText(getActivity(), "onItemClick - " + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
 //
 //
 //                Button buttonPager2 = (Button) view.findViewById(R.id.buttonPager2);
@@ -327,30 +327,19 @@ public class FirstFragment extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 //                        Intent intent = new Intent(getActivity(), YouTubeActivity.class);
 
-                        returnCursor();
+                        returnCursorForClick("AcademeG 2nd CH");
                         cursor.moveToPosition(position);
                         String vId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.VIDEO_ID_COLUMN));
                         cursor.close();
 
-                        Intent intent = new Intent(getActivity(), Delete_It.class);
+//                        Intent intent = new Intent(getActivity(), Delete_It.class);
+                        Intent intent = new Intent(getActivity(), YTActivity.class);
                         intent.putExtra("pushkin", vId);
                         startActivity(intent);
                         Toast.makeText(getActivity(), "onItemClick - " + position, Toast.LENGTH_SHORT).show();
                     }
                 });
 
-
-//                Button buttonPager2 = (Button) view.findViewById(R.id.buttonPager2);
-//                buttonPager2.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Toast.makeText(getActivity(), "Кнопочку нажали!!!", Toast.LENGTH_SHORT).show();
-//                        pageToken = nextPageToken;
-//                        new ParseTask().execute();
-////                        SplashScreen splashScreen = new SplashScreen();
-////                        splashScreen.
-//                    }
-//                });
 
 
 //                new ParseTask().execute();  //читаем JSON и заполняем SQLite
@@ -781,13 +770,19 @@ public class FirstFragment extends Fragment {
         return cursor;
     }
 
-//    public Cursor returnCursor2nd (){
-//        mDatabaseHelper = new DatabaseHelper(getActivity());
-//        mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
-//        String query = "select * from " + DatabaseHelper.DATABASE_TABLE_ACAGEMEG_2ND_CH;
-//        cursor = mSqLiteDatabase.rawQuery(query, null);
-//        return cursor;
-//    }
+    public Cursor returnCursorForClick (String chTitle){
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        mSqLiteDatabase = mDatabaseHelper.getReadableDatabase();
+        String query = "SELECT * FROM "
+                + DatabaseHelper.DATABASE_TABLE_ACAGEMEG
+                + " WHERE "
+                + DatabaseHelper.CHANNEL_TITLE_COLUMN
+                + "='"
+                + chTitle
+                + "'";
+        cursor = mSqLiteDatabase.rawQuery(query, null);
+        return cursor;
+    }
 
     public void fillSQLite (String sDataBaseTable){
         contentValues.put(DatabaseHelper.TITLE_COLUMN, title);

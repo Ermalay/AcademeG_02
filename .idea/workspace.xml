@@ -7,17 +7,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c00c0596-e398-4814-bad1-51abeffc9815" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/pager_item_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/YTActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_yt.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/FirstFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/FirstFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java" afterPath="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_delete__it.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_delete__it.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/test.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/test.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="AcademeG2.iws" />
@@ -64,41 +70,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyApplication.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/other/MyApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider editor-type-id="android-manifest">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FirstFragment.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FirstFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/FirstFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="381" column="40" selection-start-line="381" selection-start-column="40" selection-end-line="381" selection-end-column="40" />
+            <state relative-caret-position="426">
+              <caret line="336" column="52" selection-start-line="336" selection-start-column="52" selection-end-line="336" selection-end-column="52" />
               <folding>
                 <element signature="e#4248#4249#0" expanded="true" />
                 <element signature="e#4280#4281#0" expanded="true" />
                 <element signature="e#4504#4505#0" expanded="true" />
                 <element signature="e#4544#4545#0" expanded="true" />
-                <element signature="e#13008#13865#0" expanded="true" />
-                <element signature="e#13864#13865#0" expanded="true" />
+                <element signature="e#9295#10152#0" expanded="true" />
+                <element signature="e#10151#10152#0" expanded="true" />
+                <element signature="e#12976#13945#0" expanded="true" />
+                <element signature="e#13944#13945#0" expanded="true" />
                 <element signature="class#ParseTask4All#0;class#FirstFragment#0" expanded="false" />
                 <element signature="class#ParseTask#0;class#FirstFragment#0" expanded="false" />
                 <element signature="class#ParseTask2nd#0;class#FirstFragment#0" expanded="false" />
@@ -107,21 +92,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EndlessScrollListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/EndlessScrollListener.java">
+      <file leaf-file-name="activity_yt.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_yt.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pager_item_4.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/pager_item_4.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+            <state relative-caret-position="289">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -130,37 +105,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/MainActivity.java">
+      <file leaf-file-name="YTActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/YTActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+            <state relative-caret-position="374">
+              <caret line="33" column="75" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SlidingTabLayout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SlidingTabLayout.java">
+      <file leaf-file-name="dimens.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3927">
-              <caret line="290" column="0" selection-start-line="290" selection-start-column="0" selection-end-line="290" selection-end-column="0" />
+            <state relative-caret-position="136">
+              <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SlidingTabStrip.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SlidingTabStrip.java">
+      <file leaf-file-name="YouTubeActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/YouTubeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3009">
-              <caret line="187" column="44" selection-start-line="187" selection-start-column="44" selection-end-line="187" selection-end-column="44" />
-              <folding>
-                <element signature="e#7268#7269#0" expanded="true" />
-                <element signature="e#7317#7318#0" expanded="true" />
-                <element signature="e#7365#7366#0" expanded="true" />
-                <element signature="e#7412#7413#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1829,7 +1799,12 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/pager_item_3.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/pager_item_4.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_delete__it.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/FirstFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/YTActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/test.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_yt.xml" />
       </list>
     </option>
   </component>
@@ -2118,6 +2093,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AcademeG2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AcademeG2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -2269,6 +2274,9 @@
     <property name="UI_DESIGNER_EDITOR_MODE.NlPaletteManager-NlPreviewForm.SHOW" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="android.template.packageName">
+      <recent name="ru.novil.sergey.navigationdraweractivity" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\MailRuCloud\Android\samples\AcademeG2\app\src\main\res\drawable" />
     </key>
@@ -2620,7 +2628,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26171243" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13166398" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -2687,17 +2695,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2941">
-          <caret line="197" column="87" selection-start-line="197" selection-start-column="87" selection-end-line="197" selection-end-column="87" />
-          <folding>
-            <element signature="class#ParseTaskAka#0;class#SplashScreen#0" expanded="false" />
-            <element signature="class#ParseTaskAka2#0;class#SplashScreen#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/sqlite/DatabaseHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
@@ -2715,73 +2712,10 @@
             <element signature="e#4280#4281#0" expanded="true" />
             <element signature="e#4504#4505#0" expanded="true" />
             <element signature="e#4544#4545#0" expanded="true" />
-            <element signature="e#13008#13865#0" expanded="true" />
-            <element signature="e#13864#13865#0" expanded="true" />
-            <element signature="class#ParseTask4All#0;class#FirstFragment#0" expanded="false" />
-            <element signature="class#ParseTask#0;class#FirstFragment#0" expanded="false" />
-            <element signature="class#ParseTask2nd#0;class#FirstFragment#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/AdapterListVideo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/pager_item_3.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="49" column="41" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/sqlite/MyAsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="47" column="31" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
-          <folding>
-            <element signature="e#1422#1423#0" expanded="true" />
-            <element signature="e#1460#1461#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2941">
-          <caret line="197" column="87" selection-start-line="197" selection-start-column="87" selection-end-line="197" selection-end-column="87" />
-          <folding>
-            <element signature="class#ParseTaskAka#0;class#SplashScreen#0" expanded="false" />
-            <element signature="class#ParseTaskAka2#0;class#SplashScreen#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/sqlite/DatabaseHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/FirstFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#4248#4249#0" expanded="true" />
-            <element signature="e#4280#4281#0" expanded="true" />
-            <element signature="e#4504#4505#0" expanded="true" />
-            <element signature="e#4544#4545#0" expanded="true" />
-            <element signature="e#13008#13865#0" expanded="true" />
-            <element signature="e#13864#13865#0" expanded="true" />
+            <element signature="e#9295#10152#0" expanded="true" />
+            <element signature="e#10151#10152#0" expanded="true" />
+            <element signature="e#12976#13945#0" expanded="true" />
+            <element signature="e#13944#13945#0" expanded="true" />
             <element signature="class#ParseTask4All#0;class#FirstFragment#0" expanded="false" />
             <element signature="class#ParseTask#0;class#FirstFragment#0" expanded="false" />
             <element signature="class#ParseTask2nd#0;class#FirstFragment#0" expanded="false" />
@@ -3075,17 +3009,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="76" column="70" selection-start-line="76" selection-start-column="70" selection-end-line="76" selection-end-column="70" />
-          <folding>
-            <element signature="class#ParseTaskAka#0;class#SplashScreen#0" expanded="false" />
-            <element signature="class#ParseTaskAka2#0;class#SplashScreen#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/pager_item_1.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -3167,21 +3090,99 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/YouTubeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/Delete_It.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="28" column="31" selection-start-line="14" selection-start-column="23" selection-end-line="52" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/test.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="9" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_delete__it.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="18" selection-start-line="9" selection-start-column="4" selection-end-line="21" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_yt.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/view/SplashScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="76" column="70" selection-start-line="76" selection-start-column="70" selection-end-line="76" selection-end-column="70" />
+          <folding>
+            <element signature="class#ParseTaskAka#0;class#SplashScreen#0" expanded="false" />
+            <element signature="class#ParseTaskAka2#0;class#SplashScreen#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/FirstFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="381" column="40" selection-start-line="381" selection-start-column="40" selection-end-line="381" selection-end-column="40" />
+        <state relative-caret-position="426">
+          <caret line="336" column="52" selection-start-line="336" selection-start-column="52" selection-end-line="336" selection-end-column="52" />
           <folding>
             <element signature="e#4248#4249#0" expanded="true" />
             <element signature="e#4280#4281#0" expanded="true" />
             <element signature="e#4504#4505#0" expanded="true" />
             <element signature="e#4544#4545#0" expanded="true" />
-            <element signature="e#13008#13865#0" expanded="true" />
-            <element signature="e#13864#13865#0" expanded="true" />
+            <element signature="e#9295#10152#0" expanded="true" />
+            <element signature="e#10151#10152#0" expanded="true" />
+            <element signature="e#12976#13945#0" expanded="true" />
+            <element signature="e#13944#13945#0" expanded="true" />
             <element signature="class#ParseTask4All#0;class#FirstFragment#0" expanded="false" />
             <element signature="class#ParseTask#0;class#FirstFragment#0" expanded="false" />
             <element signature="class#ParseTask2nd#0;class#FirstFragment#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/novil/sergey/navigationdraweractivity/YTActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="33" column="75" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>

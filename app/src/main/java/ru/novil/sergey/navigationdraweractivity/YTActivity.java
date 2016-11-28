@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ public class YTActivity extends YouTubeBaseActivity implements YouTubePlayer.OnI
     TextView tvYTActivityTitle, tvDescription;
     int count;
     String string;
+
+    boolean bOnPress;
 
     private YouTubePlayerView playerView;
     String KEY = "AIzaSyD7VSUJPszW-64AZ4t_9EO90sUHXrkOzHk";
@@ -46,7 +49,7 @@ public class YTActivity extends YouTubeBaseActivity implements YouTubePlayer.OnI
 
 
         TextView tvYTActivityTitle = new TextView(this);
-        TextView tvYTActivityDescription = new TextView(this);
+        final TextView tvYTActivityDescription = new TextView(this);
 
 
 //        playerView = (YouTubePlayerView) findViewById(R.id.player_view_yt);
@@ -63,8 +66,24 @@ public class YTActivity extends YouTubeBaseActivity implements YouTubePlayer.OnI
         } else {
             tvYTActivityTitle.setText("курсор пустой");
         }
-        tvYTActivityTitle.setLayoutParams(lpView);
         tvYTActivityDescription.setLayoutParams(lpView);
+        tvYTActivityDescription.setVisibility(View.GONE);
+        tvYTActivityTitle.setLayoutParams(lpView);
+        tvYTActivityTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bOnPress){
+                    tvYTActivityDescription.setVisibility(View.VISIBLE);
+                    bOnPress = false;
+                } else {
+                    tvYTActivityDescription.setVisibility(View.GONE);
+                    bOnPress = true;
+                }
+
+            }
+        });
+
+
         linLayout.addView(tvYTActivityTitle);
         linLayout.addView(tvYTActivityDescription);
 

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_yt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.novil.sergey.navigationdraweractivity.YTActivity">
+    tools:context="ru.novil.sergey.navigationdraweractivity.YTActivity"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/llVideo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rl">
+        android:orientation="vertical"
+        >
 
         <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/player_view_yt"
@@ -18,41 +21,67 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@+id/rl"
+        android:id="@+id/llTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tvYTTitle"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textAlignment="inherit"
+            android:textSize="18dp"
             android:text="YTActivityTitle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/tvYTActivityTitle" />
-
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_below="@+id/tvYTActivityTitle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@+id/tvDescription"/>
+            android:layout_weight="1"
+             />
+
+        <ImageView
+            android:id="@+id/ivYTArrow"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_camera"/>
 
     </LinearLayout>
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainlayout"
-        />
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/tvYTDate"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-
-
-
-
-
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@+id/tvDescription"
+            android:padding="5dp"
+            android:autoLink="web"
+            android:linksClickable="true"
+            />
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>
